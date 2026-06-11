@@ -15,3 +15,10 @@ http://localhost:8081
 
 # L'API Backend (Node.js)	
 http://localhost:5000/api
+
+
+
+
+
+### NOTES ###
+Quand on fait du node, RESPECTER UN ORDRE PRECIS, sans suite logique l'application ne peux marche rcorrectement 
