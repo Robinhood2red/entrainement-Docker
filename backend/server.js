@@ -77,19 +77,18 @@ app.use((req, res) => {
 // Signature spéciale avec 4 paramètres (err, req, res, next) : Express
 // reconnaît automatiquement ce middleware comme gestionnaire d'erreurs.
 // Appelé quand on fait next(err) dans une route ou qu'une exception survient.
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ error: 'Internal server error', message: err.message });
-});
-
-//! Si pas en mode dev
 // app.use((err, req, res, next) => {
 //   console.error(err.stack);
-//   res.status(500).json({ 
-//     error: 'Internal server error', 
-//     message: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong.' 
-//   });
+//   res.status(500).json({ error: 'Internal server error', message: err.message });
 // });
+//! Si pas en mode dev
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ 
+    error: 'Internal server error', 
+    message: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong.' 
+  });
+});
 //!
 
 //* ---- Démarrage du serveur ---- *
