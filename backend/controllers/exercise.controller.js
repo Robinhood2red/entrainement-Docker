@@ -46,6 +46,7 @@ const ExerciseController = {
       if (!exercise) return res.status(404).json({ error: 'Exercise not found.' });
       // ! 404 = Not Found : la ressource demandée n'existe pas !
       res.json({ exercise });
+      // -- En cas d'erreur (ex: bdd, ID invalide etc...) --
     } catch (err) {
       res.status(500).json({ error: 'Failed to fetch exercise.' });
     }
