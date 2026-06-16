@@ -1,6 +1,16 @@
+// ============================================================
+// App.tsx — Composant Racine de l'Application
+//
+// Ce script initialise le routeur global (React Router), configure
+// les notifications (Toaster) et enveloppe l'ensemble de l'application
+// dans le fournisseur d'authentification (AuthProvider) pour rendre le
+// contexte accessible à tous les sous-composants et pages.
+// ============================================================
+
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
-import { AuthProvider } from './context/AuthContext'
+// * Action : Importation du Provider depuis son nouveau fichier isolé pour le Fast Refresh *
+import { AuthProvider } from './context/AuthProvider'
 import PrivateRoute from './components/PrivateRoute'
 import Layout from './components/Layout/Layout'
 import Login from './pages/Login'
@@ -13,6 +23,7 @@ import Profile from './pages/Profile'
 
 export default function App() {
   return (
+    // * Action : Enveloppement global de l'arbre des routes avec le contexte d'authentification *
     <AuthProvider>
       <BrowserRouter>
         <Toaster
@@ -26,8 +37,12 @@ export default function App() {
           }}
         />
         <Routes>
+          {/* ---- Routes Publiques ---- */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          
+          {/* ---- Routes Sécurisées (Soumises à Token valide) ---- */}
+          {/* ! Sécurité : Le composant PrivateRoute filtre les accès avant le rendu du Layout ! */}
           <Route element={<PrivateRoute />}>
             <Route element={<Layout />}>
               <Route path="/dashboard" element={<Dashboard />} />
@@ -37,9 +52,16 @@ export default function App() {
               <Route path="/profile" element={<Profile />} />
             </Route>
           </Route>
+          
+          {/* ---- Route de Redirection par Défaut ---- */}
+          {/* * Action : Redirige n'importe quelle URL inconnue vers le tableau de bord * */}
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
   )
 }
+
+// ============================================================
+// Fin du fichier App.tsx
+// ============================================================
