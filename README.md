@@ -24,3 +24,5 @@ http://localhost:5000/api
 Quand on fait du node, RESPECTER UN ORDRE PRECIS, sans suite logique l'application ne peux marche rcorrectement 
 
 <!-- ! J'ai un peu changer server.js et database.js par rapport au cour ! -->
+
+https://expo.dev/accounts/robinreds-team
