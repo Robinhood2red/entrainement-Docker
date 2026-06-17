@@ -19,31 +19,63 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   // ---- Vérification asynchrone du token au démarrage ----
+  // useEffect(() => {
+  //   // * Logique métier : Isolation de la vérification dans une fonction dédiée *
+  //   const initializeAuth = async () => {
+  //     // ? Lecture : Récupération du token potentiel stocké dans le localStorage ?
+  //     const token = localStorage.getItem('token')
+      
+  //     if (token) {
+  //       try {
+  //         // ? Requêtage : GET /api/auth/me pour vérifier la validité du token ?
+  //         const res = await api.get('/auth/me')
+  //         // * Action : Hydratation de l'utilisateur si le token est valide *
+  //         setUser(res.data.user)
+  //       } catch {
+  //         // ! Sécurité : Si l'API renvoie une erreur, le token est corrompu ou expiré -> Nettoyage !
+  //         localStorage.removeItem('token')
+  //       }
+  //     }
+      
+  //     // * Action : Clôture du chargement de manière asynchrone après les vérifications *
+  //     setLoading(false)
+  //   }
+
+  //   initializeAuth()
+  // }, [])
+
   useEffect(() => {
-    // * Logique métier : Isolation de la vérification dans une fonction dédiée *
-    const initializeAuth = async () => {
-      // ? Lecture : Récupération du token potentiel stocké dans le localStorage ?
-      const token = localStorage.getItem('token')
-      
-      if (token) {
-        try {
-          // ? Requêtage : GET /api/auth/me pour vérifier la validité du token ?
-          const res = await api.get('/auth/me')
-          // * Action : Hydratation de l'utilisateur si le token est valide *
-          setUser(res.data.user)
-        } catch {
-          // ! Sécurité : Si l'API renvoie une erreur, le token est corrompu ou expiré -> Nettoyage !
-          localStorage.removeItem('token')
+        const token = localStorage.getItem('token')
+        if (token) {
+            api.get('/auth/me')
+                .then((res) => setUser(res.data.user))
+                .catch(() => localStorage.removeItem('token'))
+                .finally(() => setLoading(false))
         }
-      }
-      
-      // * Action : Clôture du chargement de manière asynchrone après les vérifications *
-      setLoading(false)
-    }
+    }, [])
 
-    initializeAuth()
-  }, [])
+  // useEffect(() => {
+  //   const token = localStorage.getItem('token')
 
+  //   if (token) {
+
+  //     // GET /api/auth/me : retourne le profil si le token est valide
+  //     api
+  //       .get('/auth/me')
+  //       .then((res) => setUser(res.data.user))
+
+  //       // Si le token est expiré, l'intercepteur axios le supprime
+  //       .catch(() => localStorage.removeItem('token'))
+
+  //       .finally(() => setLoading(false)) // Fin du chargement dans tous les cas
+
+  //   } else {
+  //     setLoading(false) // Pas de token → on sait déjà qu'il n'est pas connecté
+  //   }
+
+  // }, [])
+
+    
   // ---- Login ----
   const login = async (email: string, password: string) => {
     // ? Requêtage : Envoi des identifiants ?
