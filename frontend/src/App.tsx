@@ -9,8 +9,8 @@
 
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
-// * Action : Importation du Provider depuis son nouveau fichier isolé pour le Fast Refresh *
-import { AuthProvider } from './context/AuthProvider'
+// * Action : Importation du Provider depuis le bon nom de fichier *
+import { AuthProvider } from './context/AuthProvider' 
 import PrivateRoute from './components/PrivateRoute'
 import Layout from './components/Layout/Layout'
 import Login from './pages/Login'
