@@ -2,7 +2,7 @@
 docker compose up -d
 
 # Initialiser MySQL en vidant le Dockercache
-docker compose down -v && docker compose up -d
+docker compose down && docker compose up -d
 
 # Eteindre Docker
 docker compose down

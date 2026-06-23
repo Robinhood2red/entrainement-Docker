@@ -44,15 +44,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   //   initializeAuth()
   // }, [])
 
-  useEffect(() => {
-        const token = localStorage.getItem('token')
-        if (token) {
-            api.get('/auth/me')
-                .then((res) => setUser(res.data.user))
-                .catch(() => localStorage.removeItem('token'))
-                .finally(() => setLoading(false))
-        }
-    }, [])
+// ============================================================
+// context/AuthProvider.tsx
+// ============================================================
+
+useEffect(() => {
+  const token = localStorage.getItem('token')
+
+  if (token) {
+    api
+      .get('/auth/me')
+      .then((res) => setUser(res.data.user))
+      .catch(() => localStorage.removeItem('token'))
+      .finally(() => setLoading(false))
+  } else {
+    // ? Requêtage et traitement : on décale l'action pour éviter le setState synchrone en cascade ?
+    setTimeout(() => {
+      setLoading(false)
+    }, 0)
+  }
+}, [])
 
   // useEffect(() => {
   //   const token = localStorage.getItem('token')
