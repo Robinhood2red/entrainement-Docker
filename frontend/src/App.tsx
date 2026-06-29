@@ -19,7 +19,7 @@ import Dashboard from './pages/Dashboard'
 import Exercises from './pages/Exercises'
 import Workouts from './pages/Workouts'
 import WorkoutDetail from './pages/WorkoutDetail'
-// import Profile from './pages/Profile'
+import Profile from './pages/Profile'
 
 export default function App() {
   return (
@@ -42,19 +42,19 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           
           {/* ---- Routes Sécurisées (Soumises à Token valide) ---- */}
-          {/* ! Sécurité : Le composant PrivateRoute filtre les accès avant le rendu du Layout ! */}
+          {/*// ! Sécurité : Le composant PrivateRoute filtre les accès avant le rendu du Layout ! */}
           <Route element={<PrivateRoute />}>
             <Route element={<Layout />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/exercises" element={<Exercises />} />
               <Route path="/workouts" element={<Workouts />} />
               <Route path="/workouts/:id" element={<WorkoutDetail />} />
-              {/* <Route path="/profile" element={<Profile />} /> */}
+              <Route path="/profile" element={<Profile />} />
             </Route>
           </Route>
           
           {/* ---- Route de Redirection par Défaut ---- */}
-          {/* * Action : Redirige n'importe quelle URL inconnue vers le tableau de bord * */}
+          {/*// * Action : Redirige n'importe quelle URL inconnue vers le tableau de bord * */}
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </BrowserRouter>

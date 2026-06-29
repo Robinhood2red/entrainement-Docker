@@ -287,7 +287,7 @@ export default function WorkoutDetail() {
 
                   {ex.muscle_group && !isEditing && <p className="text-xs text-slate-500 mb-2">{ex.muscle_group}</p>}
 
-                  {/* ? Mode lecture : Rendu des informations récupérées ? */}
+                  {/* //? Mode lecture : Rendu des informations récupérées ? */}
                   {!isEditing && (
                     <div className="flex flex-wrap gap-2">
                       {ex.sets && <span className="text-xs bg-slate-800 border border-slate-700 text-slate-400 px-2.5 py-1 rounded-md">{ex.sets} séries</span>}
@@ -298,7 +298,7 @@ export default function WorkoutDetail() {
                     </div>
                   )}
 
-                  {/* * Mode édition : Rendu du sous-formulaire pour la ligne active * */}
+                  {/* //* Mode édition : Rendu du sous-formulaire pour la ligne active * */}
                   {isEditing && (
                     <div className="space-y-2 mt-1">
                       {isCardio ? (
