@@ -4,6 +4,17 @@ docker compose up -d
 # Initialiser MySQL en vidant le Dockercache
 docker compose down && docker compose up -d
 
+<!-- ! --------------- TESTS -------------- ! -->
+# Commande test
+docker exec -it fittrack-backend npm test
+
+# Vérifier la couverture de code (Coverage)
+docker exec -it fittrack-backend npm run test:coverage
+
+# Inspecter les "Open Handles" (Optionnel mais recommandé) 
+docker exec -it fittrack-backend npx jest --detectOpenHandles
+<!-- ! ------------- FIN TESTS ------------ ! -->
+
 # Eteindre Docker
 docker compose down
 
