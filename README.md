@@ -23,10 +23,15 @@ docker exec -it fittrack-frontend npm run test ✅
 # Eteindre Docker
 docker compose down
 
+<!-- ? ------------- MOBILE ------------ ? -->
+# Commande pour initier la partie mobile expo go
+npx create-expo-app mobile --template blank-typescript
+
 # Start mobile
 npx expo start
 # Si ne marche pas
 REACT_NATIVE_PACKAGER_HOSTNAME=172.21.192.1 npx expo start
+<!-- ? ------------- FIN MOBILE ------------ ? -->
 
 # Le Site Web (React)	
 http://localhost
