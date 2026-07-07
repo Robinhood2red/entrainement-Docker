@@ -23,6 +23,11 @@ docker exec -it fittrack-frontend npm run test ✅
 # Eteindre Docker
 docker compose down
 
+# Start mobile
+npx expo start
+# Si ne marche pas
+REACT_NATIVE_PACKAGER_HOSTNAME=172.21.192.1 npx expo start
+
 # Le Site Web (React)	
 http://localhost
 
