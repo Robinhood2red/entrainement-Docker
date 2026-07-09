@@ -1,3 +1,11 @@
+// ============================================================================
+// App.tsx — Point d'entrée principal et configuration de la navigation
+//
+// Ce fichier configure le conteneur de navigation racine (NavigationContainer),
+// aiguille l'utilisateur entre la stack d'authentification et les onglets (Bottom Tabs),
+// et initialise le fournisseur de contexte d'authentification (AuthProvider).
+// ============================================================================
+
 import 'react-native-url-polyfill/auto'
 import React from 'react'
 import { registerRootComponent } from 'expo'
@@ -27,8 +35,7 @@ import ProfileScreen from './src/screens/ProfileScreen'
 const Stack = createNativeStackNavigator<RootStackParamList>()
 const Tab = createBottomTabNavigator<TabParamList>()
 
-// Lookup centralisé pour éviter un switch dans screenOptions — chaque onglet a
-// une icône "filled" (focus) et "outline" (inactif) correspondante dans Ionicons.
+// * Logique métier : dictionnaire de correspondance des icônes active/inactive pour la barre d'onglets *
 const TAB_ICONS: Record<
   string,
   { active: keyof typeof Ionicons.glyphMap; inactive: keyof typeof Ionicons.glyphMap }
@@ -39,7 +46,7 @@ const TAB_ICONS: Record<
   Profile:   { active: 'person', inactive: 'person-outline' },
 }
 
-// Navigation à onglets du bas — accessible uniquement quand l'utilisateur est connecté.
+// * Action : composant de navigation par onglets (Bottom Tabs) accessible une fois connecté *
 function AppTabs() {
   return (
     <Tab.Navigator
@@ -73,12 +80,12 @@ function AppTabs() {
   )
 }
 
-// Portail de navigation : affiche les écrans auth ou l'app selon l'état du token.
-// Le spinner pendant le chargement initial évite un flash de l'écran de login
-// quand le token AsyncStorage est encore en cours de lecture.
+// * Action : aiguillage global selon la présence ou l'absence du token JWT *
 function RootNavigator() {
+  // ? Requêtage : extraction de l'état d'authentification et de chargement depuis le contexte global ?
   const { user, loading } = useAuth()
 
+  // ! Sécurité / Alerte : affichage d'un spinner pendant la vérification du token pour éviter tout flash d'écran !
   if (loading) return <LoadingSpinner />
 
   return (
@@ -87,7 +94,7 @@ function RootNavigator() {
         {user ? (
           <>
             <Stack.Screen name="AppTabs" component={AppTabs} />
-            {/* WorkoutDetail sort des onglets → header natif avec bouton retour */}
+            {/* * Action : écran de détail de séance hors des onglets avec header natif * */}
             <Stack.Screen
               name="WorkoutDetail"
               component={WorkoutDetailScreen}
@@ -108,26 +115,21 @@ function RootNavigator() {
           </>
         )}
       </Stack.Navigator>
-      {/* Toast global — rendu après le Stack pour passer par-dessus tout */}
-      <Toast topOffset={52} />.
     </NavigationContainer>
   )
 }
 
+// * Action : composant racine enveloppant l'application avec les providers et le Toast global *
 function App() {
-  console.log('AuthProvider:', typeof AuthProvider)
-  console.log('RootNavigator:', typeof RootNavigator)
-  console.log('Toast:', typeof Toast, Toast)
   return (
     <AuthProvider>
       <StatusBar style="light" />
       <RootNavigator />
+      {/* ! Alerte : composant Toast placé à la racine du Provider pour survoler toute l'interface ! */}
       <Toast topOffset={52} />
     </AuthProvider>
   )
 }
 
-// package.json a "main": "App.tsx" (pas le bootstrap expo/AppEntry.js par
-// défaut) — sans cet appel, AppRegistry n'a jamais de composant "main"
-// enregistré et le lancement échoue avec "main has not been registered".
+// ! Alerte / Sécurité : enregistrement explicite du composant racine pour le bundler Expo !
 registerRootComponent(App)
