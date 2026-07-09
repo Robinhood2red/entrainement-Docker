@@ -7,6 +7,7 @@
 // Types partagés entre les écrans — miroir du frontend web (frontend/src/types/index.ts).
 // ! Toute modification du schéma BDD doit être répercutée ici ET dans le frontend web. !
 
+// ? Données de profil utilisateur provenant de la BDD ?
 export interface User {
   id: number
   username: string
@@ -16,6 +17,7 @@ export interface User {
   created_at: string
 }
 
+// ? Définition d'un exercice disponible dans le catalogue BDD ?
 export interface Exercise {
   id: number
   name: string
@@ -25,6 +27,7 @@ export interface Exercise {
   created_at: string
 }
 
+// ? Structure d'un exercice lié à une séance d'entraînement spécifique ?
 export interface WorkoutExercise {
   id: number
   workout_id: number
@@ -38,6 +41,7 @@ export interface WorkoutExercise {
   duration?: number
 }
 
+// ? Entité séance d'entraînement complète avec ses exercices associés ?
 export interface Workout {
   id: number
   user_id: number
@@ -50,8 +54,8 @@ export interface Workout {
   created_at: string
 }
 
+// ? Agglomération des données statistiques globales et mensuelles pour les graphiques ?
 export interface ProgressionStats {
-  // ? Récupération des données analytiques pour les graphiques et tableaux de bord ?
   stats: {
     summary: {
       total_workouts: number
@@ -78,17 +82,16 @@ export interface ProgressionStats {
 }
 
 // Types React Navigation — utilisés pour typer useNavigation() et RouteProp.
-// * Actions de navigation et gestion des flux d'écrans *
 
-// RootStackParamList : stack principal (auth + écrans hors onglets).
+// * Mapping des routes du Stack principal et validation des paramètres de navigation *
 export type RootStackParamList = {
   Login: undefined
   Register: undefined
-  AppTabs: undefined // * Redirection vers le système d'onglets principaux *
-  WorkoutDetail: { workoutId: number; title?: string } // * Action : requiert des paramètres pour afficher le détail *
+  AppTabs: undefined
+  WorkoutDetail: { workoutId: number; title?: string }
 }
 
-// TabParamList : onglets du bas, tous sans paramètre de route.
+// * Mapping des routes des onglets principaux (Bottom Tabs) sans paramètres de navigation *
 export type TabParamList = {
   Dashboard: undefined
   Exercises: undefined

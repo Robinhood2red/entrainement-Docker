@@ -52,3 +52,10 @@ Quand on fait du node, RESPECTER UN ORDRE PRECIS, sans suite logique l'applicati
 <!-- ! J'ai un peu changé server.js et database.js par rapport au cour ! -->
 
 https://expo.dev/accounts/robinreds-team
+
+
+cd mobile
+npx expo install @react-native-async-storage/async-storage
+npm install axios
+npx expo install @react-navigation/native-stack @react-navigation/native react-native-screens react-native-safe-area-context @expo/vector-icons react-native-toast-message
+npx expo install react-native-chart-kit react-native-svg
