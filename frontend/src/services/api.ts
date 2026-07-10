@@ -13,8 +13,9 @@ import axios from 'axios'
 // * baseURL : toutes les requêtes seront relatives à /api (Ex : api.get('/auth/me') -> GET /api/auth/me) *
 // * Le proxy Vite (vite.config.ts) redirige /api → http://backend:5000 *
 const api = axios.create({
-  baseURL: '/api',
-})
+  baseURL: import.meta.env.VITE_API_URL || '/api',
+});
+
 
 // * INTERCEPTEUR DE REQUÊTE : S'exécute automatiquement avant chaque envoi pour centraliser la logique métier *
 api.interceptors.request.use((config) => {

@@ -28,3 +28,7 @@ backend/coverage/
 
 # Docker (volumes locaux)
 mysql_data/
+
+
+
+database/init-clevercloud.sql

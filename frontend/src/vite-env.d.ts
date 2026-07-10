@@ -4,6 +4,10 @@
 //               les imports de fichiers statiques et CSS sans erreurs de module.
 // ============================================================================
 
+// === frontend/src/vite-env.d.ts ===
+// * Inclusion des types de l'environnement client de Vite *
+/// <reference types="vite/client" />
+
 // ! note ! Permet l'import de fichiers CSS globaux ou de modules CSS sans erreur TypeScript
 declare module "*.css" {
   const content: { [className: string]: string };

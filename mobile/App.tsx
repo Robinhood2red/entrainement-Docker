@@ -125,7 +125,7 @@ function App() {
     <AuthProvider>
       <StatusBar style="light" />
       <RootNavigator />
-      {/* ! Alerte : composant Toast placé à la racine du Provider pour survoler toute l'interface ! */}
+      {/* // ! Alerte : composant Toast placé à la racine du Provider pour survoler toute l'interface ! */}
       <Toast topOffset={52} />
     </AuthProvider>
   )
