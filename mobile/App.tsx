@@ -3,7 +3,8 @@
 //
 // Ce fichier configure le conteneur de navigation racine (NavigationContainer),
 // aiguille l'utilisateur entre la stack d'authentification et les onglets (Bottom Tabs),
-// et initialise le fournisseur de contexte d'authentification (AuthProvider).
+// initialise le fournisseur de contexte d'authentification (AuthProvider)
+// ainsi que le fournisseur Safe Area (SafeAreaProvider) pour la gestion des écrans.
 // ============================================================================
 
 import 'react-native-url-polyfill/auto'
@@ -15,6 +16,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { StatusBar } from 'expo-status-bar'
 import { Ionicons } from '@expo/vector-icons'
 import Toast from 'react-native-toast-message'
+// * Action : Importation des outils Safe Area pour gérer les zones d'exclusion d'écran *
+import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { AuthProvider, useAuth } from './src/context/AuthContext'
 import LoadingSpinner from './src/components/LoadingSpinner'
@@ -48,6 +51,9 @@ const TAB_ICONS: Record<
 
 // * Action : composant de navigation par onglets (Bottom Tabs) accessible une fois connecté *
 function AppTabs() {
+  // ? Requêtage : récupération dynamique de la taille de la barre de navigation système de l'appareil ?
+  const insets = useSafeAreaInsets()
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -62,8 +68,12 @@ function AppTabs() {
           backgroundColor: Colors.surface,
           borderTopColor: Colors.border,
           borderTopWidth: 1,
-          paddingBottom: 4,
-          height: 60,
+          
+          // ! Sécurité : ajustement du padding inférieur pour éviter la collision avec le bouton "home" ou la barre de gestes d'Android !
+          paddingBottom: insets.bottom > 0 ? insets.bottom : 4,
+          
+          // * Action : ajustement proportionnel de la hauteur globale pour éviter de tasser le label ou l'icône *
+          height: 60 + (insets.bottom > 0 ? insets.bottom - 4 : 0),
         },
         tabBarLabelStyle: { fontSize: 11, fontWeight: '500', paddingBottom: 2 },
         headerStyle: { backgroundColor: Colors.surface },
@@ -122,12 +132,15 @@ function RootNavigator() {
 // * Action : composant racine enveloppant l'application avec les providers et le Toast global *
 function App() {
   return (
-    <AuthProvider>
-      <StatusBar style="light" />
-      <RootNavigator />
-      {/* // ! Alerte : composant Toast placé à la racine du Provider pour survoler toute l'interface ! */}
-      <Toast topOffset={52} />
-    </AuthProvider>
+    // ! Sécurité : enveloppe globale obligatoire pour calculer correctement les dimensions d'écran !
+    <SafeAreaProvider>
+      <AuthProvider>
+        <StatusBar style="light" />
+        <RootNavigator />
+        {/* // ! Alerte : composant Toast placé à la racine du Provider pour survoler toute l'interface ! */}
+        <Toast topOffset={52} />
+      </AuthProvider>
+    </SafeAreaProvider>
   )
 }
 
